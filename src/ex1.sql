@@ -259,6 +259,11 @@ SELECT TOP 100 * FROM [Состояния фаз]
 
 SELECT distinct Имя FROM [Состояния фаз] 
 
+
+
+--
+-- Результат ex1
+--
 drop table if EXISTS #tempVZ
 
 SELECT VZ.ROW_ID as 'ROW_ID_Взыскания', VZ.Номер, CONCAT(VF.Название, ' ', SF.Имя) as 'Фаза + Состояние', VZ.[Счет-Взыскания], VZ.ДатНачДолга, VZ.ДатКнцДолга
@@ -273,10 +278,12 @@ WHERE  O.ИНН ='3444259579'
 AND O.ROW_ID IN (SELECT KO.[Категории-Организация] FROM [Категории организаций] KO WHERE KO.[Категории организаций] IN (7036, 7034))
 GROUP BY VZ.ROW_ID, VZ.Номер, VF.Название, SF.Имя,  VZ.[Счет-Взыскания], VZ.ДатНачДолга, VZ.ДатКнцДолга
 
+SELECT * FROM #tempVZ
 
 drop table if EXISTS #tempNS
 
-SELECT ROUND(SUM(NS.[Сумма]), 2) as "Сумма", LS.Номер as 'Номер ЛЦ', KR.[Счет-Наниматель], NS.[Месяц долга], O.Наименование, O.ROW_ID as 'ROW_ID_Организации', KR.ФИО, KR.[Дата рождения], KR.[Дата смерти]
+SELECT ROUND(SUM(NS.[Сумма]), 2) as "Сумма", LS.Номер as 'Номер ЛЦ', KR.[Счет-Наниматель], NS.[Месяц долга], O.Наименование, O.ROW_ID as 'ROW_ID_Организации', 
+KR.ФИО, KR.[Дата рождения], KR.[Дата смерти]
 into #tempNS
 FROM [НСальдо] NS
 JOIN [Лицевые счета] LS ON LS.ROW_ID = NS.[Счет]

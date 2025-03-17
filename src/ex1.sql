@@ -278,8 +278,6 @@ WHERE  O.ИНН ='3444259579'
 AND O.ROW_ID IN (SELECT KO.[Категории-Организация] FROM [Категории организаций] KO WHERE KO.[Категории организаций] IN (7036, 7034))
 GROUP BY VZ.ROW_ID, VZ.Номер, VF.Название, SF.Имя,  VZ.[Счет-Взыскания], VZ.ДатНачДолга, VZ.ДатКнцДолга
 
-SELECT * FROM #tempVZ
-
 drop table if EXISTS #tempNS
 
 SELECT ROUND(SUM(NS.[Сумма]), 2) as "Сумма", LS.Номер as 'Номер ЛЦ', KR.[Счет-Наниматель], NS.[Месяц долга], O.Наименование, O.ROW_ID as 'ROW_ID_Организации', 

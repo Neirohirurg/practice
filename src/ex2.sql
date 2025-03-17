@@ -103,12 +103,19 @@ WHERE  O.ИНН ='3444259579'
 AND O.ROW_ID IN (SELECT KO.[Категории-Организация] FROM [Категории организаций] KO WHERE KO.[Категории организаций] IN (7036, 7034))
 GROUP BY VZ.Номер, VZ.[Счет-Взыскания],  SD.ГосПошлина, Sd.Сумма2, VZ.ДатНачДолга, VZ.ДатКнцДолга, VF.Название, SF.Имя, SD.НомерДокумента, SD.ROW_ID, VZ.ОплатаПени, VZ.ОплатаГоспошлины
 
+drop table if EXISTS #tempSP
+
 SELECT VZ.Номер, VZ.Фаза, VZ.НомерДокумента, NS.Счет, ROUND(SUM(NS.Сумма), 2) as 'Сумма', 
     CASE VZ.Фаза WHEN 'Подача' THEN ROUND(VZ.Пени - VZ.ОплатаПени, 2) ELSE ROUND(VZ.Пени, 2) END as 'Пени', 
-    CASE VZ.Фаза WHEN 'Подача' THEN ROUND(VZ.ГосПошлина - VZ.ОплатаГоспошлины, 2) ELSE ROUND(VZ.ГосПошлина, 2) END as 'ГосПошлина'
+    CASE VZ.Фаза WHEN 'Подача' THEN ROUND(VZ.ГосПошлина - VZ.ОплатаГоспошлины, 2) ELSE ROUND(VZ.ГосПошлина, 2) END as 'ГосПошлина', VZ.ОплатаПени, VZ.ОплатаГоспошлины
+into #tempSP
 FROM #tempVZ VZ
 JOIN #tempNS NS ON NS.Счет = VZ.[Счет-Взыскания]
-WHERE [Месяц долга] BETWEEN Vz.ДатНачДолга AND VZ.ДатКнцДолга AND VZ.Номер = 2148408561
+WHERE [Месяц долга] BETWEEN Vz.ДатНачДолга AND VZ.ДатКнцДолга 
 GROUP BY VZ.Номер, VZ.НомерДокумента, VZ.Фаза, VZ.[ROW_ID_Состояния], VZ.Пени, VZ.ГосПошлина, VZ.ОплатаПени, VZ.ОплатаГоспошлины, NS.Счет
 ORDER BY VZ.Номер
 
+SELECT distinct SP.НомерДокумента, SP.Номер, Sp.Счет, SP.Сумма, SP.Пени, SP.ГосПошлина
+FROM #tempSP SP
+WHERE SP.НомерДокумента != ''
+ORDER BY SP.НомерДокумента

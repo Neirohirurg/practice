@@ -467,6 +467,8 @@ WHERE
    );
 ```
 
+#### **Результируий запрос в src/part1.sql**  
+
 ```rb
 drop table if EXISTS #tempVZ
 

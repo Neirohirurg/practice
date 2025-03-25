@@ -262,7 +262,7 @@ SELECT distinct Имя FROM [Состояния фаз]
 
 
 --
--- Результат ex1
+-- Результат
 --
 drop table if EXISTS #tempVZ
 

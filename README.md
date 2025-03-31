@@ -95,8 +95,8 @@
 - Умный переводчик: https://www.deepl.com/ru/translator
 - Язык программирования: https://docs.python.org/3/
 - Практика SQL/Pandas/Python: https://leetcode.com/
-Нейросети:
-- Без VPN: https://www.deepseek.com/
-- С VPN: https://chatgpt.com/
+- Нейросети:
+  - Без VPN: https://www.deepseek.com/
+  - С VPN: https://chatgpt.com/
 
 
